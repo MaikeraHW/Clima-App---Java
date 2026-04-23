@@ -1,0 +1,2 @@
+javac --module-path "C:\Java\javafx-sdk-22.0.1\lib" --add-modules org.json ClimaApp.java
+java --module-path "C:\Java\javafx-sdk-22.0.1\lib" --add-modules org.json ClimaApp

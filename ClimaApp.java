@@ -54,7 +54,7 @@ public static String getDadosClimaticos(String cidade) throws Exception {
     //método para impressão dos dados
 
     public static void imprimirDadosClimaticos(String dados){
-        System.out.println("Dados originais JSON obtidos no site da API" + dados);
+        //System.out.println("Dados originais JSON obtidos no site da API" + dados);
         JSONObject dadosJson = new JSONObject(dados);
         JSONObject informacoesAtualizadas = dadosJson.getJSONObject("current");
 
@@ -72,11 +72,11 @@ public static String getDadosClimaticos(String cidade) throws Exception {
 
         System.out.println("Condição do tempo: " + condicaoTempo);
         System.out.println("Informações Meteorológicas para " + cidade + ", " + pais);
-        System.out.println("Temperatura: " + temperaturaAtual);
-        System.out.println("Sensação térmica:  " + sensacaoTermica);
+        System.out.println("Temperatura: " + temperaturaAtual + " ºC");
+        System.out.println("Sensação térmica:  " + sensacaoTermica + " ºC");
         System.out.println("Umidade: " + umidade);
-        System.out.println("Velocidade do vento: " + velocidadeVento);
-        System.out.println("Pressão atmosférica: " + pressaoatmos);
+        System.out.println("Velocidade do vento: " + velocidadeVento + " Km/H");
+        System.out.println("Pressão atmosférica: " + pressaoatmos + "mb");
         System.out.println("Dados atualizado as " + dataHoraString);
 
     }
