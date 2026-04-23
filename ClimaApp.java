@@ -5,6 +5,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class ClimaApp {
@@ -35,9 +37,9 @@ public class ClimaApp {
 public static String getDadosClimaticos(String cidade) throws Exception { 
     String apikey = Files.readString( Paths.get("api-key.txt")).trim(); //leitura do arquivo com a APIKey
 
-    String formataNomeCidade = URLEncoder(cidade, StandardCharsets.UTF_8);
+    String formataNomeCidade = URLEncoder.encode(cidade, StandardCharsets.UTF_8);
     String apiUrl = "http://api.weatherapi.com/v1/current.json?key=" + apikey + "&q=" + formataNomeCidade; // criação da URL para solicitação (padrão + key + string)
-    HttpRequest request = new HttpRequest.newBuilder() //criando o request
+    HttpRequest request = HttpRequest.newBuilder() //criando o request
             .uri(URI.create(apiUrl))
             .build();
 
@@ -47,4 +49,36 @@ public static String getDadosClimaticos(String cidade) throws Exception {
 
     return response.body();
     };
+
+
+    //método para impressão dos dados
+
+    public static void imprimirDadosClimaticos(String dados){
+        System.out.println("Dados originais JSON obtidos no site da API" + dados);
+        JSONObject dadosJson = new JSONObject(dados);
+        JSONObject informacoesAtualizadas = dadosJson.getJSONObject("current");
+
+        String cidade = dadosJson.getJSONObject("location").getString("name");
+        String pais = dadosJson.getJSONObject("location").getString("country");
+
+        String condicaoTempo = informacoesAtualizadas.getJSONObject("condition").getString("text");
+        int umidade = informacoesAtualizadas.getInt("humidity");
+        float velocidadeVento = informacoesAtualizadas.getFloat("wind_kph");
+        float pressaoatmos = informacoesAtualizadas.getFloat("pressure_mb");
+        float sensacaoTermica = informacoesAtualizadas.getFloat("feelslike_c");
+        float temperaturaAtual = informacoesAtualizadas.getFloat("temp_c");
+
+        String dataHoraString = informacoesAtualizadas.getString("last_updated");
+
+        System.out.println("Condição do tempo: " + condicaoTempo);
+        System.out.println("Informações Meteorológicas para " + cidade + ", " + pais);
+        System.out.println("Temperatura: " + temperaturaAtual);
+        System.out.println("Sensação térmica:  " + sensacaoTermica);
+        System.out.println("Umidade: " + umidade);
+        System.out.println("Velocidade do vento: " + velocidadeVento);
+        System.out.println("Pressão atmosférica: " + pressaoatmos);
+        System.out.println("Dados atualizado as " + dataHoraString);
+
+    }
+
 }
